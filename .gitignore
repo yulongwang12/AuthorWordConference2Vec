@@ -1,3 +1,5 @@
-.pyc
+*.pyc
 .ipynb_checkpoints/
-extraction.ipynb
+data/acm.txt
+*.npy
+*.xlsx
