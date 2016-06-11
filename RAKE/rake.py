@@ -1,3 +1,4 @@
+# %load rake.py
 # Implementation of RAKE - Rapid Automtic Keyword Exraction algorithm
 # as described in:
 # Rose, S., D. Engel, N. Cramer, and W. Cowley (2010). 
@@ -5,12 +6,12 @@
 # In M. W. Berry and J. Kogan (Eds.), Text Mining: Applications and Theory.unknown: John Wiley and Sons, Ltd.
 
 
-# Last Modified: 9:07 am, 2016-06-11
+# Last Modified: 2016-06-11
 # Author: Yulong Wang
 
 import re
 import operator
-
+from stop_word_list import stop_word_list
 
 def is_number(s):
     try:
@@ -60,8 +61,7 @@ def split_sentences(text):
     return sentences
 
 
-def build_stop_word_regex(stop_word_file_path):
-    stop_word_list = load_stop_words(stop_word_file_path)
+def build_stop_word_regex():
     stop_word_regex_list = []
     for word in stop_word_list:
         word_regex = r'\b' + word + r'(?![\w-])'  # added look ahead for hyphen
@@ -121,9 +121,8 @@ def generate_candidate_keyword_scores(phrase_list, word_score):
 
 
 class Rake(object):
-    def __init__(self, stop_words_path):
-        self.stop_words_path = stop_words_path
-        self.__stop_words_pattern = build_stop_word_regex(stop_words_path)
+    def __init__(self):
+        self.__stop_words_pattern = build_stop_word_regex()
 
     def run(self, text):
         sentence_list = split_sentences(text)
